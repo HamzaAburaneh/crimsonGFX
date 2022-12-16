@@ -3,7 +3,8 @@
 	import { fade } from 'svelte/transition';
 	import { scale } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-
+	// import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import {
 		Button,
 		Navbar,
@@ -18,7 +19,15 @@
 	} from 'flowbite-svelte';
 	let hover = false;
 	let homeActive = false;
+
 	let aboutActive = false;
+
+	let currentRoute;
+
+	// onMount(() => {
+	// 	currentRoute = $route.path;
+	// 	if ((currentRoute = '/')) homeActive = true;
+	// });
 
 	$: clr = hover ? 'zinc-50' : 'rose-500';
 	$: visibleFlag = hover ? 'invisible' : '';
@@ -27,6 +36,7 @@
 	$: logoimg = hover ? '/favicon2.png' : '/favicon.png';
 </script>
 
+<h1>{$page.url.pathname}</h1>
 <div
 	on:mouseenter={() => {
 		hover = true;
@@ -34,7 +44,7 @@
 	on:mouseleave={() => {
 		hover = false;
 	}}
-	class="group/nav11 transition ease-in-out duration-700 border-b-[32px] border-[#EA2355] hover:border-zinc-50 shadow-[0_25px_40px_-15px_rgba(0,0,0,0.6)] relative"
+	class="group/nav11 transition ease-in-out duration-700 border-b-[16px] border-[#EA2355] hover:border-zinc-50 shadow-[0_25px_40px_-15px_rgba(0,0,0,0.6)] relative"
 >
 	<Navbar
 		let:hidden
@@ -70,42 +80,44 @@
 		<NavUl {hidden} style=" bottom: -6px;" class="items-center justify">
 			<NavLi
 				class="css-menu"
-				on:click={() => ((homeActive = true), (aboutActive = false))}
-				nonActiveClass="text-xl text-zinc-500 hover:bg-zinc-50"
+				nonActiveClass="text-xl ease-in-out duration-700 text-zinc-500 hover:bg-zinc-50"
 				activeClass="text-xl decoration-rose-500 text-rose-500 ease-in-out duration-700 group-hover/nav11:decoration-zinc-50 group-hover/nav11:text-zinc-50 underline underline-offset-[16px]"
 				href="/"
-				active={homeActive}>HOME</NavLi
+				active={$page.url.pathname === '/'}>HOME</NavLi
 			>
 			<NavLi
 				class="css-menu"
-				on:click={() => ((homeActive = false), (aboutActive = true))}
-				nonActiveClass="text-xl text-zinc-500 border-2 rounded-lg border-zinc-50 px-8 hover:border-zinc-100 hover:bg-zinc-50"
+				nonActiveClass="text-xl ease-in-out duration-700 text-zinc-500 hover:bg-zinc-50"
 				activeClass="text-xl decoration-rose-500 text-rose-500 ease-in-out duration-700 group-hover/nav11:decoration-zinc-50 group-hover/nav11:text-zinc-50 underline underline-offset-[16px]"
 				href="/about"
-				active={aboutActive}>ABOUT</NavLi
+				active={$page.url.pathname === '/about'}>ABOUT</NavLi
 			>
 			<NavLi
 				class="css-menu"
-				nonActiveClass="text-xl text-zinc-500"
+				nonActiveClass="text-xl ease-in-out duration-700 text-zinc-500 hover:bg-zinc-50"
 				activeClass="text-xl decoration-rose-500 text-rose-500 ease-in-out duration-700 group-hover/nav11:decoration-zinc-50 group-hover/nav11:text-zinc-50 underline underline-offset-[16px]"
-				href="/contact">CONTACT</NavLi
+				href="/contact"
+				active={$page.url.pathname === '/contact'}>CONTACT</NavLi
 			>
 			<NavLi
 				id="nav-menu-portfolio"
 				class="cursor-pointer css-menu"
-				nonActiveClass="text-xl text-zinc-500"><Chevron aligned>PORTOFLIO</Chevron></NavLi
+				nonActiveClass="text-xl ease-in-out duration-700 text-zinc-500 hover:bg-zinc-50"
+				><Chevron aligned>PORTOFLIO</Chevron></NavLi
 			>
 			<Dropdown triggeredBy="#nav-menu-portfolio" class="w-44 z-20">
-				<DropdownItem>Stream Rebrands</DropdownItem>
-				<DropdownItem>Animated Screens</DropdownItem>
-				<DropdownItem>Logos</DropdownItem>
+				<DropdownItem class="hover:bg-gray-700 hover:text-zinc-300">Stream Rebrands</DropdownItem>
+				<DropdownItem class="hover:bg-gray-700 hover:text-zinc-300">Animated Screens</DropdownItem>
+				<DropdownItem class="hover:bg-gray-700 hover:text-zinc-300">Logos</DropdownItem>
 				<DropdownDivider />
-				<DropdownItem>Sign out</DropdownItem>
+				<DropdownItem class="hover:bg-gray-700 hover:text-zinc-300">Sign out</DropdownItem>
 			</Dropdown>
 			<NavLi
 				class="css-menu"
-				nonActiveClass="text-xl text-zinc-500 hover:bg-zinc-50"
-				href="/pricing">PRICING</NavLi
+				nonActiveClass="text-xl ease-in-out duration-700 text-zinc-500 hover:bg-zinc-50"
+				activeClass="text-xl decoration-rose-500 text-rose-500 ease-in-out duration-700 group-hover/nav11:decoration-zinc-50 group-hover/nav11:text-zinc-50 underline underline-offset-[16px]"
+				href="/pricing"
+				active={$page.url.pathname === '/pricing'}>PRICING</NavLi
 			>
 		</NavUl>
 	</Navbar>
